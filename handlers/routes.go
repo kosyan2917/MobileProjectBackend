@@ -1,8 +1,16 @@
 package handlers
 
-import "github.com/labstack/echo/v4"
+import (
+	"backend/middlewares"
+	"github.com/labstack/echo/v4"
+)
 
 func SetupRoutes(app *echo.Echo) {
 	group := app.Group("/api")
-	group.GET("/file", getFile)
+	group.POST("/auth", loginHandler)
+
+	filesGroup := group.Group("/files")
+	filesGroup.Use(middlewares.AuthMiddleware)
+	filesGroup.GET("/", listFiles)
+	filesGroup.GET("/:file", getFile)
 }
