@@ -45,7 +45,7 @@ func getDiff(c echo.Context) error {
 	if err != nil {
 		panic(err)
 	}
-	print(t)
+	fmt.Println(t)
 	username := c.Get("username")
 	if username == "" {
 		return c.JSON(http.StatusUnauthorized, map[string]string{

@@ -2,13 +2,18 @@ package handlers
 
 import (
 	"backend/db"
-	"backend/utils"
-	"fmt"
 	"net/http"
+	"os"
 	"time"
 
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/labstack/echo/v4"
 )
+
+const accessAlive = 100
+const refreshAlive = 1000
+
+var hmacSampleSecret = os.Getenv("JWTSECRET")
 
 type User struct {
 	Username string `json:"username"`
@@ -25,9 +30,24 @@ func loginHandler(c echo.Context) error {
 		panic(err)
 	}
 	if isAuthenticated {
-		token := utils.RandStringRunes(16)
-		database.Exec("UPDATE users SET token = $1, started = $2 where username = $3", token, time.Now(), username)
-		return c.JSONBlob(http.StatusOK, []byte(fmt.Sprintf(`{"message": "success", "token": "%s"}`, token)))
+		accessToken := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+			"type": "access",
+			"exp":  time.Now().Unix() + accessAlive,
+			"name": username,
+		})
+		refreshToken := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+			"type": "refresh",
+			"exp":  time.Now().Unix() + accessAlive,
+			"name": username,
+		})
+		accessTokenString, _ := accessToken.SignedString(hmacSampleSecret)
+		refreshTokenString, _ := refreshToken.SignedString(hmacSampleSecret)
+
+		return c.JSON(http.StatusOK, map[string]string{
+			"accessToken":  accessTokenString,
+			"refreshToken": refreshTokenString,
+		})
+
 	} else {
 		return c.String(http.StatusUnauthorized, "Wrong creds")
 	}
