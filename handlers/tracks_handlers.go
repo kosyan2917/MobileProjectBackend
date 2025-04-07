@@ -54,7 +54,7 @@ func getDiff(c echo.Context) error {
 	}
 	database := db.Database{}.GetConnection()
 	var files []models.Tracks
-	rows, err := database.Query("SELECT name, time, created_at, distance from tracks INNER JOIN users ON tracks.owner_id = users.id WHERE users.username == ?", username)
+	rows, err := database.Query("SELECT name, time, created_at, distance from tracks INNER JOIN users ON tracks.owner_id = users.id WHERE users.username = $1", username)
 	if err != nil {
 		panic(err)
 	}
@@ -66,7 +66,7 @@ func getDiff(c echo.Context) error {
 		}
 		files = append(files, file)
 	}
-	var result []models.Tracks
+	result := []models.Tracks{}
 	for _, serverTrack := range files {
 		flag := false
 		for _, clientTrack := range t.Files {
@@ -79,7 +79,9 @@ func getDiff(c echo.Context) error {
 			result = append(result, serverTrack)
 		}
 	}
-	return c.JSON(http.StatusOK, result)
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"files": result,
+	})
 
 }
 

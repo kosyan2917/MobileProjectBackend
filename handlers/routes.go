@@ -8,10 +8,12 @@ import (
 
 func SetupRoutes(app *echo.Echo) {
 	group := app.Group("/api")
-	group.POST("/auth", loginHandler)
+	authGroup := group.Group("/auth")
+	authGroup.POST("/login", loginHandler)
+	authGroup.GET("/refresh", refreshHandler)
 
 	filesGroup := group.Group("/tracks")
 	filesGroup.Use(middlewares.AuthMiddleware)
-	filesGroup.GET("/diff", listFiles)
+	filesGroup.POST("/diff", getDiff)
 	filesGroup.GET("/:file", getFile)
 }

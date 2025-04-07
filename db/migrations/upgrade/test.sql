@@ -1,0 +1,1 @@
+SELECT name, time, created_at, distance from tracks INNER JOIN users ON tracks.owner_id = users.id WHERE users.username == "test1"
