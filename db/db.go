@@ -3,8 +3,9 @@ package db
 import (
 	"database/sql"
 	"fmt"
-	_ "github.com/jackc/pgx/v5/stdlib"
 	"os"
+
+	_ "github.com/jackc/pgx/v5/stdlib"
 )
 
 type Database struct {
@@ -14,7 +15,7 @@ type Database struct {
 func (db Database) GetConnection() *sql.DB {
 
 	if db.db == nil {
-		connectionString := fmt.Sprintf("postgres://%s:%s@localhost:5432/postgres", os.Getenv("DBUSER"), os.Getenv("DBPASS"))
+		connectionString := fmt.Sprintf("postgres://%s:%s@localhost:5431/postgres", os.Getenv("DBUSER"), os.Getenv("DBPASS"))
 		print(connectionString)
 		conn, err := sql.Open("pgx", connectionString)
 		if err != nil {

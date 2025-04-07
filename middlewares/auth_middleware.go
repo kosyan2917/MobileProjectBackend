@@ -1,31 +1,28 @@
 package middlewares
 
 import (
-	"backend/db"
-	"database/sql"
-	"errors"
+	"os"
+
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/labstack/echo/v4"
-	"net/http"
 )
+
+var hmacSampleSecret = os.Getenv("JWTSECRET")
 
 func AuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		// Получаем токен из заголовка Authorization
-		token := c.Request().Header.Get("Authorization")
-		database := db.Database{}.GetConnection()
-		var username string
-		err := database.QueryRow("SELECT username from users where token = $1", token).Scan(&username)
+		tokenString := c.Request().Header.Get("Authorization")
+		token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+			// hmacSampleSecret is a []byte containing your secret, e.g. []byte("my_secret_key")
+			return hmacSampleSecret, nil
+		}, jwt.WithValidMethods([]string{jwt.SigningMethodHS256.Alg()}))
 		if err != nil {
-			if errors.Is(err, sql.ErrNoRows) {
-				c.Set("username", "")
-				return next(c)
-			} else {
-				return c.JSON(http.StatusInternalServerError, map[string]string{
-					"error": "error while extracting token",
-				})
-			}
+			panic(err)
 		}
-		c.Set("username", username)
+
+		if claims, ok := token.Claims.(jwt.MapClaims); ok {
+			c.Set("username", claims["username"])
+		}
 		return next(c)
 	}
 }

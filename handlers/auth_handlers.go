@@ -4,9 +4,10 @@ import (
 	"backend/db"
 	"backend/utils"
 	"fmt"
-	"github.com/labstack/echo/v4"
 	"net/http"
 	"time"
+
+	"github.com/labstack/echo/v4"
 )
 
 type User struct {
