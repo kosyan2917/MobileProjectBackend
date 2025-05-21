@@ -16,4 +16,7 @@ func SetupRoutes(app *echo.Echo) {
 	filesGroup.Use(middlewares.AuthMiddleware)
 	filesGroup.POST("/diff", getDiff)
 	filesGroup.GET("/:file", getFile)
+
+	profileGroup := group.Group("/profile")
+	profileGroup.GET("/:username", getProfile)
 }

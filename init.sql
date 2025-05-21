@@ -1,14 +1,17 @@
 CREATE TABLE users (
     id serial PRIMARY KEY,
     username VARCHAR(255) UNIQUE,
-    password VARCHAR(255)
+    password VARCHAR(255),
+    avatar VARCHAR(255),
+    name VARCHAR(255)
+
 );
 
-INSERT INTO users (username, password)
+INSERT INTO users (username, password, name, avatar)
 VALUES
-    ('test1', 'test'),
-    ('test2', 'test'),
-    ('test3', 'test');
+    ('test1', 'test', "Тестовый пользователь1", ""),
+    ('test2', 'test', "Тестовый пользователь2", ""),
+    ('test3', 'test', "Тестовый пользователь3", "avatar.jpg");
 
 CREATE TABLE tracks (
     id serial PRIMARY KEY,

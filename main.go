@@ -4,11 +4,13 @@ import (
 	"backend/db"
 	"backend/handlers"
 	"fmt"
+
 	"github.com/labstack/echo/v4"
 )
 
 func main() {
 	e := echo.New()
+	e.Static("/static", "static")
 	database := db.Database{}.GetConnection()
 	err := database.Ping()
 	if err != nil {

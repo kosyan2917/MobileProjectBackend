@@ -15,7 +15,7 @@ type Database struct {
 func (db Database) GetConnection() *sql.DB {
 
 	if db.db == nil {
-		connectionString := fmt.Sprintf("postgres://%s:%s@postgresql:5432/postgres", os.Getenv("DBUSER"), os.Getenv("DBPASS"))
+		connectionString := fmt.Sprintf("postgres://%s:%s@localhost:5432/postgres", os.Getenv("DBUSER"), os.Getenv("DBPASS"))
 		conn, err := sql.Open("pgx", connectionString)
 		if err != nil {
 			fmt.Println(err)

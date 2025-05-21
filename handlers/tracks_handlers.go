@@ -54,7 +54,7 @@ func getDiff(c echo.Context) error {
 	}
 	database := db.Database{}.GetConnection()
 	var files []models.Tracks
-	rows, err := database.Query("SELECT name, time, created_at, distance from tracks INNER JOIN users ON tracks.owner_id = users.id WHERE users.username = $1", username)
+	rows, err := database.Query("SELECT tracks.name, time, created_at, distance from tracks INNER JOIN users ON tracks.owner_id = users.id WHERE users.username = $1", username)
 	if err != nil {
 		panic(err)
 	}
