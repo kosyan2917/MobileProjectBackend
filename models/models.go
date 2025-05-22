@@ -6,3 +6,8 @@ type Tracks struct {
 	Created_at int     `json:"createdAt"`
 	Distance   float64 `json:"distance"`
 }
+
+type Piece struct {
+	Name     string `json:"name"`
+	Filename string `json:"filename"`
+}

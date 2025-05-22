@@ -19,4 +19,9 @@ func SetupRoutes(app *echo.Echo) {
 
 	profileGroup := group.Group("/profile")
 	profileGroup.GET("/:username", getProfile)
+
+	piecesGroup := group.Group("/pieces")
+	piecesGroup.Use(middlewares.AuthMiddleware)
+	piecesGroup.GET("/added", getAddedPieces)
+	piecesGroup.POST("/calculate", calculatePieces)
 }

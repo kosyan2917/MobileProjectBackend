@@ -21,7 +21,6 @@ func getProfile(c echo.Context) error {
 	database := db.Database{}.GetConnection()
 	err := database.QueryRow("SELECT name, avatar FROM users WHERE username = $1", username).Scan(&name, &image)
 	if err != nil {
-		panic(err)
 		return c.JSON(http.StatusNotFound, "")
 	}
 	res := profile{Name: name, Image: image}
