@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="MyApp" xmlns="http://www.topografix.com/GPX/1/1">
+    <trk>
+        <trkseg>
+        <trkpt lat="37.33138305" lon="-122.03075743">
+            <ele>0.0</ele>
+            <time>2025-05-22T05:44:09Z</time>
+        </trkpt>
+        <trkpt lat="37.33131185" lon="-122.03075659">
+            <ele>0.0</ele>
+            <time>2025-05-22T05:44:10Z</time>
+        </trkpt>
+        <trkpt lat="37.33123666" lon="-122.03076342">
+            <ele>0.0</ele>
+            <time>2025-05-22T05:44:11Z</time>
+        </trkpt>
+        <trkpt lat="37.33115792" lon="-122.03076853">
+            <ele>0.0</ele>
+            <time>2025-05-22T05:44:12Z</time>
+        </trkpt>
+        <trkpt lat="37.3310798" lon="-122.0307725">
+            <ele>0.0</ele>
+            <time>2025-05-22T05:44:13Z</time>
+        </trkpt>
+        <trkpt lat="37.33100231" lon="-122.03077622">
+            <ele>0.0</ele>
+            <time>2025-05-22T05:44:14Z</time>
+        </trkpt>
+        </trkseg>
+    </trk>
+</gpx>

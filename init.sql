@@ -33,3 +33,28 @@ VALUES
     (2, 'Дневной_велозаезд (5)', 555, 1743717685, 5),
     (3, 'Дневной_велозаезд (6)', 1000, 1743717685, 3),
     (3, 'Послеобеденный_велозаезд', 2000, 1743717685, 6);
+
+CREATE TABLE pieces (
+    id serial PRIMARY KEY,
+    name VARCHAR(255) UNIQUE NOT NULL,
+    filename VARCHAR(255) UNIQUE NOT NULL,
+    length FLOAT
+);
+
+INSERT INTO pieces (name, filename, length)
+VALUES
+    ('Дорога в Новогиреево', 'piece.gpx', 0.71),
+    ('Обратная дорога в Новогиреево', 'piecereversed.gpx', 0.71);
+
+CREATE TABLE subscribed_pieces (
+    id serial PRIMARY KEY,
+    piece_id INT NOT NULL,
+    user_id INT NOT NULL,
+    CONSTRAINT fk_user FOREIGN KEY(user_id) REFERENCES users(id),
+    CONSTRAINT fk_piece FOREIGN KEY(piece_id) REFERENCES pieces(id)
+);
+
+INSERT INTO subscribed_pieces (piece_id, user_id)
+VALUES
+    (1, 1),
+    (2, 1);

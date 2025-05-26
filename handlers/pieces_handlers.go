@@ -18,6 +18,7 @@ type gpx struct {
 type pieceInTrack struct {
 	Name string  `json:"name"`
 	Time float64 `json:"time"`
+	Path string  `json:"path"`
 }
 
 func getAddedPieces(c echo.Context) error {
@@ -29,14 +30,14 @@ func getAddedPieces(c echo.Context) error {
 	}
 	database := db.Database{}.GetConnection()
 	var files []models.Piece
-	rows, err := database.Query("SELECT name, filename from pieces JOIN subscribed_pieces ON subscribed_pieces.piece_id = pieces.id WHERE user_id = (SELECT id FROM users WHERE username = $1)", username)
+	rows, err := database.Query("SELECT name, filename, length from pieces JOIN subscribed_pieces ON subscribed_pieces.piece_id = pieces.id WHERE user_id = (SELECT id FROM users WHERE username = $1)", username)
 	if err != nil {
 		panic(err)
 	}
 	defer rows.Close()
 	for rows.Next() {
 		var file models.Piece
-		if err := rows.Scan(&file.Name, &file.Filename); err != nil {
+		if err := rows.Scan(&file.Name, &file.Filename, &file.Length); err != nil {
 			panic(err)
 		}
 		files = append(files, file)
@@ -89,7 +90,7 @@ func calculatePieces(c echo.Context) error {
 		piecePoints := utils.GetTrackPoints(pieceFile)
 		contains, duration := utils.ContainsRouteSlidingWindow(trackPoints, piecePoints, 20.0)
 		if contains {
-			res = append(res, pieceInTrack{Name: piece.Name, Time: duration.Seconds()})
+			res = append(res, pieceInTrack{Name: piece.Name, Time: duration.Seconds(), Path: piece.Filename})
 		}
 	}
 	return c.JSON(http.StatusOK, res)

@@ -7,9 +7,7 @@ import (
 
 const earthRadius = 6371000.0 // meters
 
-// distancePointToSegment computes the minimal distance from a point to the segment AB in meters.
 func distancePointToSegment(tp TimePoint, A, B Point) float64 {
-	// approximate local projection to meters
 	latAvg := (A.Latitude + B.Latitude) / 2 * math.Pi / 180
 
 	dLon := (B.Longitude - A.Longitude) * math.Pi / 180
@@ -27,7 +25,6 @@ func distancePointToSegment(tp TimePoint, A, B Point) float64 {
 
 	ab2 := ABx*ABx + ABy*ABy
 	if ab2 == 0 {
-		// A and B are the same point
 		return math.Hypot(APx, APy)
 	}
 
@@ -47,8 +44,6 @@ func distancePointToSegment(tp TimePoint, A, B Point) float64 {
 	return math.Hypot(dx, dy)
 }
 
-// ContainsRouteSlidingWindow checks if 'route' is followed within 'timePoints' allowing
-// at most 1 outlier in any sliding window of 5 segments.
 func ContainsRouteSlidingWindow(timePoints []TimePoint, route []Point, tol float64) (bool, time.Duration) {
 	n := len(route)
 	if n < 2 {
@@ -56,11 +51,9 @@ func ContainsRouteSlidingWindow(timePoints []TimePoint, route []Point, tol float
 	}
 	segCount := n - 1
 
-	// Track which segments are matched and their match times
 	matched := make([]bool, segCount)
 	matchTimes := make([]time.Time, segCount)
 
-	// Search timePoints sequentially for each segment
 	tpIndex := 0
 	for i := 0; i < segCount && tpIndex < len(timePoints); i++ {
 		A, B := route[i], route[i+1]
@@ -75,7 +68,6 @@ func ContainsRouteSlidingWindow(timePoints []TimePoint, route []Point, tol float
 		}
 	}
 
-	// Sliding window of size 5 segments, allow at most 1 miss
 	window := 5
 	for start := 0; start <= segCount-window; start++ {
 		missCount := 0
@@ -89,7 +81,6 @@ func ContainsRouteSlidingWindow(timePoints []TimePoint, route []Point, tol float
 		}
 	}
 
-	// Determine start and end times from first and last matched segments
 	var firstTime, lastTime time.Time
 	for i, ok := range matched {
 		if ok {

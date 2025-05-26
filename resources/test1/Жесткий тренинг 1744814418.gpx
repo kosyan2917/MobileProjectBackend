@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="MyApp" xmlns="http://www.topografix.com/GPX/1/1">
+    <trk>
+        <trkseg>
+        <trkpt lat="37.785834" lon="-122.406417">
+            <ele>0.0</ele>
+            <time>2025-04-16T14:39:19Z</time>
+        </trkpt>
+        </trkseg>
+    </trk>
+</gpx>

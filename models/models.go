@@ -8,6 +8,7 @@ type Tracks struct {
 }
 
 type Piece struct {
-	Name     string `json:"name"`
-	Filename string `json:"filename"`
+	Name     string  `json:"name"`
+	Filename string  `json:"filename"`
+	Length   float64 `json:"length"`
 }

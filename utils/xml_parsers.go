@@ -7,7 +7,6 @@ import (
 	"time"
 )
 
-// GPX represents the root element of a GPX file.
 type GPX struct {
 	XMLName xml.Name `xml:"gpx"`
 	Version string   `xml:"version,attr"`
@@ -15,17 +14,14 @@ type GPX struct {
 	Tracks  []Trk    `xml:"trk"`
 }
 
-// Trk represents a track.
 type Trk struct {
 	Segments []Trkseg `xml:"trkseg"`
 }
 
-// Trkseg represents a track segment.
 type Trkseg struct {
 	Points []Trkpt `xml:"trkpt"`
 }
 
-// Trkpt represents a track point.
 type Trkpt struct {
 	Latitude  float64    `xml:"lat,attr"`
 	Longitude float64    `xml:"lon,attr"`
@@ -33,7 +29,6 @@ type Trkpt struct {
 	Time      *time.Time `xml:"time,omitempty"`
 }
 
-// Point is a simple latitude/longitude pair.
 type Point struct {
 	Latitude  float64
 	Longitude float64
